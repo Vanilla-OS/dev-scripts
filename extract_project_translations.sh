@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 project_path=""
 ignore_pattern='*/vendor/*'
@@ -77,14 +77,14 @@ find -P "$project_path" -name '*.go' -not -path "$ignore_pattern" -type f | whil
         if [ "$mode" = "diff" ]; then
             pref=${key%.*}
             suff=${key#*.}
-            grep -Pzq "${pref}:\n(?:(\s+)\w*:\s*(?:\"[^\"]*\"\n|\|\n(?:(?!\1\S).*\n)+))*\s+${suff}:[^\n]" $ref_file
+            grep -Pzq "${pref}:\n(?:(\s+)\w*:\s*(?:\"[^\"]*\"\n|\|\n(?:(?!\1\S).*\n)+))*\s+${suff}:[^\n]" "${project_path}/${ref_file}"
             if [ $? -ne 0 ]; then
                 printf -v print_items '%s  - %s\n' "$print_items" "$key"
-                n_items+=1
+                n_items=$((n_items+1))
             fi
         else
             printf -v print_items '%s  - %s\n' "$print_items" "$key"
-            n_items+=1
+            n_items=$((n_items+1))
         fi
     done
 
